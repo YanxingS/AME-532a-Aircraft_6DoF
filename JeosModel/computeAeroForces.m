@@ -14,7 +14,6 @@ CM0_s2 = 0;       CM0_s3 = 0;        CM0_s4 = -0.05;    CM0_s5 = -0.05;
 CMa_s2 = 0;       CMa_s3 = 0;        CMa_s4 = 0;        CMa_s5 = 0;
 ro = 1.225; % kg/m^3 at surface level
 
-%lift_s3 = ; % Lift force for surface area 3 (Vertical Stabilizer)
 
 function [liftSurf, dragSurf] = compLiftDrag(arSurf, v_B_A_B, cSurfL0, cSurfD0, alphaLocal0,nSurf_B, eSurf,...
                                             ro, v_infSurf, surfArea, incAngleSurf, cSurfDalpha)

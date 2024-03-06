@@ -1,8 +1,8 @@
 % Compute Mass Properties from following table data
-%% Define Aircraft Mass and Geometry Properties (using grams)
+%% Define Aircraft Mass and Geometry Properties (using grams, and meters)
 % mass xSize ySize  zSize   xLoc    yLoc    zLoc
 %  1     2      3     4       5       6       7
-componentMassesAndGeom = ...
+componentMassesAndGeom_og = ...
 [90     0.1   0.96   0.01   -0.23   0.44     0; % RightWing+Servo (s4)
 90      0.1   0.96   0.01   -0.23  -0.44     0; % LeftWing+Servo (s5)
 13     0.075  0.35   0.002  -0.76     0     -0.16; % Hor. Stab. (s2)
@@ -14,6 +14,10 @@ componentMassesAndGeom = ...
 20     0.05   0.01   0.01   -0.014    0      0; % 2 Servos
 40     0.03   0.02   0.02    0.02     0      0.01; % Motor
 12     0      0.26   0.025   0.05     0      0.01]; % Propeller
+
+componentMassesAndGeom = zeros(size(componentMassesAndGeom_og));
+componentMassesAndGeom(:,1) = componentMassesAndGeom_og(:,1)/1000; % Converting to kg
+componentMassesAndGeom(:,2:end) = componentMassesAndGeom_og(:,2:end);
 
 x_S2_B_B = [componentMassesAndGeom(3,5); componentMassesAndGeom(3,6); componentMassesAndGeom(3,7)];
 x_S3_B_B = [componentMassesAndGeom(4,5); componentMassesAndGeom(4,6); componentMassesAndGeom(4,7)];

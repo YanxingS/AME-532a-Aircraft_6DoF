@@ -47,14 +47,14 @@ end
 %Jmat = [Jxx Jxy -Jxz; Jyx Jyy Jyz; -Jxz Jzy Jzz];
 %JmatInv = inv(Jmat);
 rt = Jzz*Jxx-(Jxz^2);
-LL = 0.8; % lbf*ft*s^2. Roll Body Moment
-MM = 0.8; % lbf*ft*s^2. Pitch Body Moment
-NN = 0.8; % lbf*ft*s^2. Yaw Body Moment
+LL = 0.; % lbf*ft*s^2. Roll Body Moment
+MM = 0.; % lbf*ft*s^2. Pitch Body Moment
+NN = 0.; % lbf*ft*s^2. Yaw Body Moment
 %Mext_B = [LL; MM; NN]; % Roll, Pitch and Yaw moments omatf body respectively
 
 modelNameSim = "Sim_sixDOF";
 open_system(modelNameSim)
-sim(modelNameSim,'StartTime','0','StopTime','10','FixedStep','0.2');
+sim(modelNameSim,'StartTime','0','StopTime','40','FixedStep','0.01');
 
 t = ans.tout;
 posBody_ecef = ans.yout{1}.Values;
