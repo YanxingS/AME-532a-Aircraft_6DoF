@@ -21,13 +21,13 @@ x_S4_B_B = [componentMassesAndGeom(1,5); componentMassesAndGeom(1,6); componentM
 x_S5_B_B = [componentMassesAndGeom(2,5); componentMassesAndGeom(2,6); componentMassesAndGeom(2,7)];
 
 totMass = sum(componentMassesAndGeom(:,1));
-compCM = zeros(length(componentMassesAndGeom),3);
-for i = 1:length(componentMassesAndGeom)
-    compCM(i,1) = componentMassesAndGeom(i,1) * componentMassesAndGeom(i,5); % mass * x_Loc
-    compCM(i,2) = componentMassesAndGeom(i,1) * componentMassesAndGeom(i,6); % mass * y_Loc
-    compCM(i,3) = componentMassesAndGeom(i,1) * componentMassesAndGeom(i,7); % mass * z_Loc
-end
-sumCompCM = [sum(compCM(:,1)), sum(compCM(:,3)), sum(compCM(:,3))];
+
+cg_x = sum(componentMassesAndGeom(:,1).*componentMassesAndGeom(:,5))/totMass;
+cg_y = sum(componentMassesAndGeom(:,1).*componentMassesAndGeom(:,6))/totMass;
+cg_z = sum(componentMassesAndGeom(:,1).*componentMassesAndGeom(:,7))/totMass;
+
+x_cg = [cg_x; cg_y; cg_z];
+
 % Rectangle Prism MOI:
 % Ixx = 1/12*mass* (y^2 + z^2)
 % Iyy = 1/12*mass* (z^2 + x^2)
@@ -86,20 +86,18 @@ componentInertias = [wingIxx, wingIyy, wingIzz;...
                     propellerIxx, propellerIyy, propellerIzz
                     ];
 
-x_cm = sumCompCM/ totMass;
-x_B_B_cmR = x_cm; % Body cg in inch
-
 % Compute Body J
 J = zeros(3,3);
-J(1,1) = sum(componentInertias(:,1)) + sum(componentMassesAndGeom(:,1) .* ((componentMassesAndGeom(:,6)-x_cm(2)).^2 + (componentMassesAndGeom(:,7)-x_cm(3)).^2));
-J(2,2) = sum(componentInertias(:,2)) + sum(componentMassesAndGeom(:,1) .* ((componentMassesAndGeom(:,7)-x_cm(3)).^2 + (componentMassesAndGeom(:,5)-x_cm(1)).^2));
-J(3,3) = sum(componentInertias(:,3)) + sum(componentMassesAndGeom(:,1) .* ((componentMassesAndGeom(:,5)-x_cm(1)).^2 + (componentMassesAndGeom(:,6)-x_cm(2)).^2));
-J(1,2) = -sum(componentMassesAndGeom(:,1) .* ((componentMassesAndGeom(:,5)-x_cm(1)) .* (componentMassesAndGeom(:,6)-x_cm(2))));
-J(1,3) = -sum(componentMassesAndGeom(:,1) .* ((componentMassesAndGeom(:,7)-x_cm(3)) .* (componentMassesAndGeom(:,5)-x_cm(1))));
-J(2,3) = -sum(componentMassesAndGeom(:,1) .* ((componentMassesAndGeom(:,6)-x_cm(2)) .* (componentMassesAndGeom(:,7)-x_cm(3))));
-J(2,1) = -1*J(1,2);
-J(3,1) = -1*J(1,3);
-J(3,2) = -1*J(2,3);
+J(1,1) = sum(componentInertias(:,1)) + sum(componentMassesAndGeom(:,1) .* ((componentMassesAndGeom(:,6)-x_cg(2)).^2 + (componentMassesAndGeom(:,7)-x_cg(3)).^2)); % Ixx
+J(2,2) = sum(componentInertias(:,2)) + sum(componentMassesAndGeom(:,1) .* ((componentMassesAndGeom(:,7)-x_cg(3)).^2 + (componentMassesAndGeom(:,5)-x_cg(1)).^2)); % Iyy
+J(3,3) = sum(componentInertias(:,3)) + sum(componentMassesAndGeom(:,1) .* ((componentMassesAndGeom(:,5)-x_cg(1)).^2 + (componentMassesAndGeom(:,6)-x_cg(2)).^2)); % Izz
+J(1,2) = sum(componentMassesAndGeom(:,1) .* ((componentMassesAndGeom(:,5)-x_cg(1)) .* (componentMassesAndGeom(:,6)-x_cg(2)))); % Ixy
+J(1,3) = sum(componentMassesAndGeom(:,1) .* ((componentMassesAndGeom(:,7)-x_cg(3)) .* (componentMassesAndGeom(:,5)-x_cg(1)))); % Ixz
+J(2,3) = sum(componentMassesAndGeom(:,1) .* ((componentMassesAndGeom(:,6)-x_cg(2)) .* (componentMassesAndGeom(:,7)-x_cg(3)))); % Iyz
+J(2,1) = 1*J(1,2);
+J(3,1) = 1*J(1,3);
+J(3,2) = 1*J(2,3);
+J = J/1000; % To account for grams
 
 computeSurfacePos
 computeAeroForces

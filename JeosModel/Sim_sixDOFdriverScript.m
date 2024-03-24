@@ -14,7 +14,7 @@
 
 clear all; close all; clc
 
-rEarth = 6378100; %m/s
+rEarth = 6378100; %m
 % The following are the moments of inertia components
 computeMassProps
 
