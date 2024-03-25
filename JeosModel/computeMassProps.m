@@ -15,11 +15,6 @@ componentMassesAndGeom = ...
 40     0.03   0.02   0.02    0.02     0      0.01; % Motor
 12     0      0.26   0.025   0.05     0      0.01]; % Propeller
 
-x_S2_B_B = [componentMassesAndGeom(3,5); componentMassesAndGeom(3,6); componentMassesAndGeom(3,7)];
-x_S3_B_B = [componentMassesAndGeom(4,5); componentMassesAndGeom(4,6); componentMassesAndGeom(4,7)];
-x_S4_B_B = [componentMassesAndGeom(1,5); componentMassesAndGeom(1,6); componentMassesAndGeom(1,7)];
-x_S5_B_B = [componentMassesAndGeom(2,5); componentMassesAndGeom(2,6); componentMassesAndGeom(2,7)];
-
 totMass = sum(componentMassesAndGeom(:,1));
 
 cg_x = sum(componentMassesAndGeom(:,1).*componentMassesAndGeom(:,5))/totMass;
@@ -100,7 +95,19 @@ J(3,2) = 1*J(2,3);
 J = J/1000; % To account for grams
 
 computeSurfacePos
-computeAeroForces
+%computeAeroForces
+AeroData
+
+% Normally, these would indicate the location where the normal force would apply but we need to account for body cg and 1/4 chord
+x_S2_B_B_nominal = [componentMassesAndGeom(3,5); componentMassesAndGeom(3,6); componentMassesAndGeom(3,7)]; 
+x_S3_B_B_nominal = [componentMassesAndGeom(4,5); componentMassesAndGeom(4,6); componentMassesAndGeom(4,7)];
+x_S4_B_B_nominal = [componentMassesAndGeom(1,5); componentMassesAndGeom(1,6); componentMassesAndGeom(1,7)];
+x_S5_B_B_nominal = [componentMassesAndGeom(2,5); componentMassesAndGeom(2,6); componentMassesAndGeom(2,7)];
+
+x_S2_B_B = (x_S2_B_B_nominal + [0.25*c_s2 0 0]') - x_cg;
+x_S3_B_B = (x_S3_B_B_nominal + [0.25*c_s3 0 0]') - x_cg;
+x_S4_B_B = (x_S4_B_B_nominal + [0.25*c_s4 0 0]') - x_cg;
+x_S5_B_B = (x_S5_B_B_nominal + [0.25*c_s5 0 0]') - x_cg;
 
 function [Ixx, Iyy, Izz] = compMOI(mass, x_dim, y_dim, z_dim)
 

@@ -57,25 +57,25 @@ open_system(modelNameSim)
 sim(modelNameSim,'StartTime','0','StopTime','10','FixedStep','0.2');
 
 t = ans.tout;
-posBody_ecef = ans.yout{1}.Values;
-posBody_ecef_x = posBody_ecef.Data(:,1);
-posBody_ecef_y = posBody_ecef.Data(:,2);
-posBody_ecef_z = posBody_ecef.Data(:,3);
+posBody_ecef = ans.yout.Data;
+posBody_ecef_x = posBody_ecef(1,:,:);
+posBody_ecef_y = posBody_ecef(2,:,:);
+posBody_ecef_z = posBody_ecef(3,:,:);
 
 figure(1)
-plot (t, posBody_ecef_x);
+plot (t, posBody_ecef_x(:));
 title('X-Position of Aircraft w.r.t. ECEF')
 ylabel('Distance (m) From Earth Origin')
 xlabel('Time (s)')
 
 figure(2)
-plot (t, posBody_ecef_y);
+plot (t, posBody_ecef_y(:));
 title('Y-Position of Aircraft w.r.t. ECEF')
 ylabel('Distance (m) From Earth Origin')
 xlabel('Time (s)')
 
 figure(3)
-plot (t, posBody_ecef_z);
+plot (t, posBody_ecef_z(:));
 title('Z-Position of Aircraft w.r.t. ECEF')
 ylabel('Distance (m) From Earth Origin')
 xlabel('Time (s)')
