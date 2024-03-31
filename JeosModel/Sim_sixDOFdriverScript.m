@@ -14,9 +14,9 @@
 
 clear all; close all; clc
 
-rEarth = 6378100; %m
+rEarth = 6378100; % Radius of earth in meters
 % The following are the moments of inertia components
-computeMassProps
+computeMassProps % Outputs Vehicle MOI along with surface area geometry and mass properties
 
 %dcm2quat(); To go from dcm to quaternion transformation
 %eul2quat(); % to go from euler angles to quaternion. default is ZYX
