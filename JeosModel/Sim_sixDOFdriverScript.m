@@ -52,15 +52,27 @@ MM = 0.8; % lbf*ft*s^2. Pitch Body Moment
 NN = 0.8; % lbf*ft*s^2. Yaw Body Moment
 %Mext_B = [LL; MM; NN]; % Roll, Pitch and Yaw moments omatf body respectively
 
+% Define surface area of control deflectors/inputs
+elevator_sA = 0.435;
+rudder_sA = 0.0333;
+rightaileron_sA = 0.192/2;
+leftaileron_sA = 0.192/2;
+
+% Define surface area of control deflectors/inputs
+elevator_sA = 0.435;
+rudder_sA = 0.0333;
+rightaileron_sA = 0.192/2;
+leftaileron_sA = 0.192/2;
+
 modelNameSim = "Sim_sixDOF";
 open_system(modelNameSim)
-sim(modelNameSim,'StartTime','0','StopTime','35','FixedStep','0.1');
+sim(modelNameSim,'StartTime','0','StopTime','100','FixedStep','0.1');
 
 t = ans.tout;
 posBody_ecef = ans.yout{1}.Values;
-posBody_ecef_x = posBody_ecef.Data(1,:,:);
-posBody_ecef_y = posBody_ecef.Data(2,:,:);
-posBody_ecef_z = posBody_ecef.Data(3,:,:);
+posBody_ecef_x = posBody_ecef.Data(:,1);
+posBody_ecef_y = posBody_ecef.Data(:,2);
+posBody_ecef_z = posBody_ecef.Data(:,3);
 
 figure(1)
 plot (t, posBody_ecef_x(:));
