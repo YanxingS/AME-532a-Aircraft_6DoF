@@ -54,7 +54,7 @@ NN = 0.8; % lbf*ft*s^2. Yaw Body Moment
 
 modelNameSim = "Sim_sixDOF";
 open_system(modelNameSim)
-sim(modelNameSim,'StartTime','0','StopTime','10','FixedStep','0.2');
+sim(modelNameSim,'StartTime','0','StopTime','35','FixedStep','0.1');
 
 t = ans.tout;
 posBody_ecef = ans.yout.Data;
