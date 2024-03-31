@@ -57,10 +57,10 @@ open_system(modelNameSim)
 sim(modelNameSim,'StartTime','0','StopTime','35','FixedStep','0.1');
 
 t = ans.tout;
-posBody_ecef = ans.yout.Data;
-posBody_ecef_x = posBody_ecef(1,:,:);
-posBody_ecef_y = posBody_ecef(2,:,:);
-posBody_ecef_z = posBody_ecef(3,:,:);
+posBody_ecef = ans.yout{1}.Values;
+posBody_ecef_x = posBody_ecef.Data(1,:,:);
+posBody_ecef_y = posBody_ecef.Data(2,:,:);
+posBody_ecef_z = posBody_ecef.Data(3,:,:);
 
 figure(1)
 plot (t, posBody_ecef_x(:));
