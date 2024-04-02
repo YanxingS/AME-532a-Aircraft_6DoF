@@ -27,7 +27,6 @@ x_rightWingAndServo_s4_B_B = [componentMassesAndGeom(1,5);...
 c_s4 = componentMassesAndGeom(1,2); % Chord of surface Area 4 (Right Wing and Servo)
 b_s4 = componentMassesAndGeom(1,3); % Span of surface Area 4 (Right Wing and Servo)
 area_s4 = c_s4 * b_s4; % in inch
-AR_s4 = b_s4/c_s4;
 
 % Compute surface properties for Left Wing and Servo (S5)
 x_leftWingAndServo_s5_B_B = [componentMassesAndGeom(2,5);...
@@ -36,4 +35,5 @@ x_leftWingAndServo_s5_B_B = [componentMassesAndGeom(2,5);...
 c_s5 = componentMassesAndGeom(2,2); % Chord of surface Area 5 (Left Wing and Servo)
 b_s5 = componentMassesAndGeom(2,3); % Span of surface Area 5 (Left Wing and Servo)
 area_s5 = c_s5 * b_s5; % in inch
-AR_s5 = b_s5/c_s5;
+AR_s4 = (b_s4 + b_s5)/c_s4;
+AR_s5 = (b_s4 + b_s5)/c_s5;

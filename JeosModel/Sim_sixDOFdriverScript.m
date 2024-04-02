@@ -64,8 +64,9 @@ leftaileron_sA = 0.192/2;
 mixMatrix = [-1/2 1/2 0 0; 1/2 1/2 0 0; 0 0 1 0; 0 0 0 1];
 mixMatrixInv = inv(mixMatrix);
 
-% modelNameSim = "Sim_sixDOF";
-% open_system(modelNameSim)
+modelNameSim = "Sim_sixDOF";
+open_system(modelNameSim)
+
 % sim(modelNameSim,'StartTime','0','StopTime','100','FixedStep','0.1');
 
 % t = ans.tout;
