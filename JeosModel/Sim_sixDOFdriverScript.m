@@ -14,6 +14,9 @@
 
 clear all; close all; clc
 
+%load("FirstTrimPoint.mat");
+
+
 rEarth = 6378100; % Radius of earth in meters
 % The following are the moments of inertia components
 computeMassProps % Outputs Vehicle MOI along with surface area geometry and mass properties
@@ -52,30 +55,40 @@ MM = 0.8; % lbf*ft*s^2. Pitch Body Moment
 NN = 0.8; % lbf*ft*s^2. Yaw Body Moment
 %Mext_B = [LL; MM; NN]; % Roll, Pitch and Yaw moments omatf body respectively
 
+% Define surface area of control deflectors/inputs
+elevator_sA = 0.435;
+rudder_sA = 0.0333;
+rightaileron_sA = 0.192/2;
+leftaileron_sA = 0.192/2;
+
+mixMatrix = [-1/2 1/2 0 0; 1/2 1/2 0 0; 0 0 1 0; 0 0 0 1];
+mixMatrixInv = inv(mixMatrix);
+
 modelNameSim = "Sim_sixDOF";
 open_system(modelNameSim)
-sim(modelNameSim,'StartTime','0','StopTime','10','FixedStep','0.2');
 
-t = ans.tout;
-posBody_ecef = ans.yout.Data;
-posBody_ecef_x = posBody_ecef(1,:,:);
-posBody_ecef_y = posBody_ecef(2,:,:);
-posBody_ecef_z = posBody_ecef(3,:,:);
+% sim(modelNameSim,'StartTime','0','StopTime','100','FixedStep','0.1');
 
-figure(1)
-plot (t, posBody_ecef_x(:));
-title('X-Position of Aircraft w.r.t. ECEF')
-ylabel('Distance (m) From Earth Origin')
-xlabel('Time (s)')
-
-figure(2)
-plot (t, posBody_ecef_y(:));
-title('Y-Position of Aircraft w.r.t. ECEF')
-ylabel('Distance (m) From Earth Origin')
-xlabel('Time (s)')
-
-figure(3)
-plot (t, posBody_ecef_z(:));
-title('Z-Position of Aircraft w.r.t. ECEF')
-ylabel('Distance (m) From Earth Origin')
-xlabel('Time (s)')
+% t = ans.tout;
+% posBody_ecef = ans.yout{1}.Values;
+% posBody_ecef_x = posBody_ecef.Data(:,1);
+% posBody_ecef_y = posBody_ecef.Data(:,2);
+% posBody_ecef_z = posBody_ecef.Data(:,3);
+% 
+% figure(1)
+% plot (t, posBody_ecef_x(:));
+% title('X-Position of Aircraft w.r.t. ECEF')
+% ylabel('Distance (m) From Earth Origin')
+% xlabel('Time (s)')
+% 
+% figure(2)
+% plot (t, posBody_ecef_y(:));
+% title('Y-Position of Aircraft w.r.t. ECEF')
+% ylabel('Distance (m) From Earth Origin')
+% xlabel('Time (s)')
+% 
+% figure(3)
+% plot (t, posBody_ecef_z(:));
+% title('Z-Position of Aircraft w.r.t. ECEF')
+% ylabel('Distance (m) From Earth Origin')
+% xlabel('Time (s)')
