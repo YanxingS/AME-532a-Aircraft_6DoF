@@ -52,6 +52,15 @@ MM = 0.8; % lbf*ft*s^2. Pitch Body Moment
 NN = 0.8; % lbf*ft*s^2. Yaw Body Moment
 %Mext_B = [LL; MM; NN]; % Roll, Pitch and Yaw moments omatf body respectively
 
+% Define surface area of control deflectors/inputs
+elevator_sA = 0.435;
+rudder_sA = 0.0333;
+rightaileron_sA = 0.192/2;
+leftaileron_sA = 0.192/2;
+
+mixMatrix = [-1/2 1/2 0 0; 1/2 1/2 0 0; 0 0 1 0; 0 0 0 1];
+mixMatrixInv = inv(mixMatrix);
+
 %modelNameSim = "Sim_sixDOF";
 %open_system(modelNameSim)
 %sim(modelNameSim,'StartTime','0','StopTime','10','FixedStep','0.2');
