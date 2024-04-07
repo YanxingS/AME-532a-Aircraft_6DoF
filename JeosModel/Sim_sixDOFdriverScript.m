@@ -14,8 +14,9 @@
 
 clear all; close all; clc
 
-%load("FirstTrimPoint.mat");
-
+load("TrimForRollYawPitcDamper.mat");
+load("TransferFunctionForRollYawPitch.mat")
+load("ControlGain_RollYawPitchDamper.mat")
 
 rEarth = 6378100; % Radius of earth in meters
 % The following are the moments of inertia components
