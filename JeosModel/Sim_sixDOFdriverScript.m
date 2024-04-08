@@ -14,9 +14,11 @@
 
 clear all; close all; clc
 
-load("TrimForRollYawPitcDamper.mat");
-load("TransferFunctionForRollYawPitch.mat")
-load("ControlGain_RollYawPitchDamper.mat")
+%load("TrimForRollYawPitcDamper.mat");
+load('NewStateSpace.mat');
+load('OperTrimOne.mat');
+%load("TransferFunctionForRollYawPitch.mat")
+%load("ControlGain_RollYawPitchDamper.mat")
 
 rEarth = 6378100; % Radius of earth in meters
 % The following are the moments of inertia components
@@ -55,6 +57,9 @@ LL = 0.8; % lbf*ft*s^2. Roll Body Moment
 MM = 0.8; % lbf*ft*s^2. Pitch Body Moment
 NN = 0.8; % lbf*ft*s^2. Yaw Body Moment
 %Mext_B = [LL; MM; NN]; % Roll, Pitch and Yaw moments omatf body respectively
+
+J_int = [1, 0.1, 0.1; 0.1, 1, 0.1; 0.1,0.1,1];
+
 
 % Define surface area of control deflectors/inputs
 elevator_sA = 0.435;
