@@ -17,8 +17,23 @@ clear all; close all; clc
 %load("TrimForRollYawPitcDamper.mat");
 load('NewStateSpace.mat');
 load('OperTrimOne.mat');
-%load("TransferFunctionForRollYawPitch.mat")
-%load("ControlGain_RollYawPitchDamper.mat")
+
+% Check Open Loop Step Response
+%temp1 = 
+
+% Determine Q (State Cost Weighted Matrix) and R (Input Cost Weighted Matrix) for LQR
+% Q must be an nxn matrix where n is the number of states
+% Using Brysons Rule as a starting point to determine my Q matrix
+[numStates, ~] = size(linsys1.A);
+[~,numInputs] = size(linsys1.B);
+Q = 0.1*eye(numStates);
+R = eye(numInputs);
+
+[Kmat, Sricatti, P] = lqr(linsys1, Q, R);
+
+% Now check closed loop step response
+temp2 = ss(linsys1.A-linsys1.B*Kmat, linsys1.B, linsys1.C, linsys1.D);
+step(temp2)                   
 
 rEarth = 6378100; % Radius of earth in meters
 % The following are the moments of inertia components
@@ -69,6 +84,12 @@ leftaileron_sA = 0.192/2;
 
 mixMatrix = [-1/2 1/2 0 0; 1/2 1/2 0 0; 0 0 1 0; 0 0 0 1];
 mixMatrixInv = inv(mixMatrix);
+
+% Time delay for control surface actuators   
+tauElevator = 10;
+tauRudder = 10;
+tauRightAileron = 10;
+tauLeftAileron = 10;
 
 modelNameSim = "Sim_sixDOF";
 open_system(modelNameSim)
