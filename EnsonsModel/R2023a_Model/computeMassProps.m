@@ -15,13 +15,21 @@ componentMassesAndGeom = ...
 40     0.03   0.02   0.02    0.02     0      0.01; % Motor
 12     0      0.26   0.025   0.05     0      0.01]; % Propeller
 
+componentMassesAndGeom(:,1) = componentMassesAndGeom(:,1)/1000;
 totMass = sum(componentMassesAndGeom(:,1));
 
-cg_x = sum(componentMassesAndGeom(:,1).*componentMassesAndGeom(:,5))/totMass;
-cg_y = sum(componentMassesAndGeom(:,1).*componentMassesAndGeom(:,6))/totMass;
-cg_z = sum(componentMassesAndGeom(:,1).*componentMassesAndGeom(:,7))/totMass;
+componentMoments(:,1) = componentMassesAndGeom(:,1).*componentMassesAndGeom(:,5);
+componentMoments(:,2) = componentMassesAndGeom(:,1).*componentMassesAndGeom(:,6);
+componentMoments(:,3) = componentMassesAndGeom(:,1).*componentMassesAndGeom(:,7);
 
-x_cg = [cg_x; cg_y; cg_z];
+x_cm = sum(componentMoments)/totMass;
+
+cg_x = sum(componentMassesAndGeom(:,1).*componentMassesAndGeom(:,5));
+cg_y = sum(componentMassesAndGeom(:,1).*componentMassesAndGeom(:,6));
+cg_z = sum(componentMassesAndGeom(:,1).*componentMassesAndGeom(:,7));
+
+%x_cg = [cg_x; cg_y; cg_z];
+x_cg=x_cm';
 
 % Rectangle Prism MOI:
 % Ixx = 1/12*mass* (y^2 + z^2)
@@ -92,7 +100,6 @@ J(2,3) = sum(componentMassesAndGeom(:,1) .* ((componentMassesAndGeom(:,6)-x_cg(2
 J(2,1) = 1*J(1,2);
 J(3,1) = 1*J(1,3);
 J(3,2) = 1*J(2,3);
-J = J/1000; % To account for grams
 
 computeSurfacePos
 AeroData % Data that would typically come from wind tunnel testing
